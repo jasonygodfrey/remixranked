@@ -1,12 +1,28 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [username, setUsername] = useState('');
   const [server, setServer] = useState('');
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, []);
+
+  const fetchLeaderboard = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/leaderboard');
+      const data = await response.json();
+      setLeaderboard(data.leaderboard || []);
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+    }
+    setLoading(false);
+  };
 
   const fetchCharacterData = async () => {
     setLoading(true);
