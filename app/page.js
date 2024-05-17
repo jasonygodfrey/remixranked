@@ -19,7 +19,7 @@ export default function Home() {
         body: JSON.stringify({ name: username, realm: server }),
       });
       const data = await response.json();
-      setLeaderboard(data.leaderboard);
+      setLeaderboard(data.leaderboard || []); // Ensure it's an array
     } catch (error) {
       console.error('Error fetching character data:', error);
     }
